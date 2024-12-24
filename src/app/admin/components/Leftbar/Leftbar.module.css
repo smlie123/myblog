@@ -1,0 +1,7 @@
+.leftbar{
+    width: 200px;
+    height: 100vh;
+    float: left;
+    background: #555;
+    color: #fff;
+}
