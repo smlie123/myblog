@@ -17,7 +17,7 @@ export default function Sidebar() {
   return (
     <>
       <div className={styles.header}> 
-        <span>Logo，欢迎您，admin</span>
+        <span>欢迎您，admin</span>
         <span onClick={logout}>退出</span>
       </div>
       

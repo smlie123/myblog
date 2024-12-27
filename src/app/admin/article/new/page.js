@@ -1,108 +1,146 @@
 'use client';
-import { useState,useEffect,useRef} from "react";
-import Image from "next/image";
-import Quill from 'quill';
+
+import { useState, useEffect, useRef,useMemo } from "react";
+import { Input, Button } from 'antd'
 import styles from "./page.module.css";
-import 'quill/dist/quill.snow.css'; 
+import dynamic from 'next/dynamic';
+import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+
+
 
 export default function Home() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [editorContent,setEditorContent] = useState('');
-  const [error, setError] = useState("");
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [error, setError] = useState("");
 
-  const quillInstance= useRef(null);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    let reactQuillRef = useRef(null);
+    let quillRef = useRef(null);
     
-    const contentHtml = quillInstance.current.root.innerHTML;
-console.log(contentHtml);
-    // console.log(quillInstance)
 
-    
-    const res = await fetch("/api/auth/article", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ title, content:contentHtml }),
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      // 登录成功后，保存 JWT，并跳转到主页
-      //localStorage.setItem("token", data.token);
-      
-      
-
-      alert('add ok')
-    } else {
-      setError(data.message || "Something went wrong");
+    const showUploader =()=>{
+        console.log('show image uploader')
     }
+
+    //编辑器配置
+
+    
+    
+    const toolbarOptions = [
+        [{ 'header': '1' }, { 'header': '2' }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        ['bold', 'italic', 'underline'],
+        ['link'],
+        [{ 'align': [] }],
+        ['image'], // 默认的图片按钮
+        ['clean'], // 清除格式按钮
+      ];
+    
+
+      // 自定义图片上传的处理函数
+  const handleImageUpload = () => {
+
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+
+    input.onchange = () => {
+      const file = input.files[0];
+      if (file) {
+        uploadImage(file);
+      }
+    };
   };
 
-  useEffect(() => {
-    // 组件首次挂载后执行的操作
-    console.log('Component did mount (DOM loaded)');
-    const container = document.getElementById('editor');
-    quillInstance.current = new Quill(container, {
-      theme: 'snow',  // 选择主题
-      modules: {
-        toolbar: [
-          [{ header: '1' }, { header: '2' }, { font: [] }],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['bold', 'italic', 'underline'],
-          ['link'],
-          ['image'],
-        ],
-      },
-    });
+  const uploadImage = (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
 
-    quillInstance.current.root.innerHTML = editorContent;
-    // 监听编辑器内容变化
-    quillInstance.current.on('text-change', (delta, oldDelta, source) => {
-      const content = quillInstance.current.root.innerHTML;
-      if (content !== editorContent) {
-        setEditorContent(content);  // 更新 state
-      }
-    });
+    // 模拟上传请求，假设上传到 '/api/upload'
+    fetch('/api/auth/upload', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('data',data)
+        console.log('!!!!!!!!!!!!')
+        console.log(reactQuillRef)
+        const quill = reactQuillRef.current.getEditor()
+        console.log(quill)
+        const range = quill.getSelection();
+          quill.insertEmbed(range.index, 'image', data.path);
+      })
+      .catch((error) => {
+        console.error('Image upload failed:', error);
+      });
+  };
+    //提交文章
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    // 如果你想在组件卸载时执行清理操作，可以返回一个清理函数
-    return () => {
-      console.log('Component will unmount (cleanup)');
+        const res = await fetch("/api/auth/article", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ title, content }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+            // 登录成功后，保存 JWT，并跳转到主页
+            //localStorage.setItem("token", data.token);
+
+
+
+            alert('add ok')
+        } else {
+            setError(data.message || "Something went wrong");
+        }
     };
-  }, []);  
 
-  return (
-    <div className={styles.page}>
-        <h1>新建文章</h1>
-        <div className={styles.editor}>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>标题</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>内容</label>
-            <input
-              type="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-            />
-          </div>
-          
-          <button type="submit">发布</button>
-          {error && <p>{error}</p>}
-        </form>
-        <div id="editor"></div>
+    const handleChange = (value) => {
+        setContent(value);
+    };
+
+    const editorModule = useMemo(()=>{
+        return {
+            toolbar: {
+                container: toolbarOptions,
+                handlers: {
+                  image: handleImageUpload, // 自定义图片上传按钮事件
+                },
+            },
+        }
+    },[])
+
+
+    return (
+        <div className={styles.page}>
+            <h3>新建文章</h3>
+            <div>
+                <Input
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="在这里输入标题" />
+
+                <div className={styles.editor}>
+                    <ReactQuill
+                        ref={reactQuillRef}
+                        theme="snow"
+                        placeholder='在这里输入内容...'
+                        value={content}
+                        onChange={setContent}
+                        modules={editorModule}
+                    />
+                </div>
+
+                <Button onClick={handleSubmit}>发布</Button>
+
+            </div>
         </div>
-    </div>
-  );
+    );
 }

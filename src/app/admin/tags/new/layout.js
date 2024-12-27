@@ -1,3 +1,5 @@
+import { Geist, Geist_Mono } from "next/font/google";
+
 
 export const metadata = {
   title: "Create Next App",
@@ -7,6 +9,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <div>
-      {children}</div>
+      {children}
+    </div>
   );
 }

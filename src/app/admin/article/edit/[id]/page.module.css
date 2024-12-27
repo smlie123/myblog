@@ -1,0 +1,24 @@
+.page{
+    box-sizing: border-box;
+    margin-top: 15px;
+    margin-left: 220px;
+    padding-right: 20px;
+  }
+  
+  .page h3{
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .editor{
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    min-height: 300px;
+  }
+  
+  .editor .ql-container{
+    min-height: 300px;
+  }
+  

@@ -12,6 +12,11 @@ export default function Sidebar() {
         <dd><Link href="/admin/article/">文章列表</Link></dd>
         <dd><Link href="/admin/article/new">新建文章</Link></dd>
       </dl>
+      <dl>
+        <dt>标签管理</dt>
+        <dd><Link href="/admin/tags/">标签列表</Link></dd>
+        <dd><Link href="/admin/tags/new">新建标签</Link></dd>
+      </dl>
        
     </div>
   )

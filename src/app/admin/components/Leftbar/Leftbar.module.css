@@ -4,4 +4,19 @@
     float: left;
     background: #555;
     color: #fff;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.leftbar dl{
+   margin-bottom: 10px;
+}
+
+.leftbar dt{
+    font-weight: bold;
+}
+
+.leftbar dd{
+    text-indent: 10px;
+    margin-top: 5px;
 }

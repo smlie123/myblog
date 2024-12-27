@@ -9,14 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "antd": "^5.22.6",
     "bcryptjs": "^2.4.3",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.11.5",
     "next": "15.1.2",
+    "prisma": "^6.1.0",
     "quill": "^2.0.3",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "quill-image-resize-module-react": "^3.0.0",
+    "react-quill": "^2.0.0",
+    "react-quill-new": "^3.3.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

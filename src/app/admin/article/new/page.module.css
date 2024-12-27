@@ -1,10 +1,19 @@
-.editor{
-  background: #eee;
-  height: 600px;
+.page{
+  box-sizing: border-box;
+  margin-top: 15px;
+  margin-left: 220px;
+  padding-right: 20px;
+}
+
+.page h3{
+  font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .editor{
+  width: 100%;
   float: left;
-  width: 1000px;
-  background: #ccc;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  min-height: 300px;
 }
