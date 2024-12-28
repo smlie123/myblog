@@ -1,7 +1,5 @@
 
 import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server'
-
 const prisma = new PrismaClient();
 
 export async function GET(req) {
@@ -9,7 +7,7 @@ export async function GET(req) {
   console.log('prisma-----------------------------------',prisma)
 
   try {
-    const result = await prisma.tags.findMany();
+    const result = await prisma.categorys.findMany();
     return new Response(JSON.stringify({ code:0, message: "查询成功", result: result }), { status: 201 });
   } catch (error) {
     return new Response(JSON.stringify({ message: "Database error", error }), { status: 500 });
@@ -18,12 +16,14 @@ export async function GET(req) {
 
 
 export async function POST(req) {
-  const { tag } = await req.json();
+  const { name } = await req.json();
   // 将新用户信息保存到数据库
+  
+
   try {
-    const result = await prisma.tags.create({
+    const result = await prisma.categorys.create({
       data: {
-        name: tag
+        name
       },
     })
     return new Response(JSON.stringify({ code:0, message: "add success", result: result }), { status: 201 });
@@ -33,11 +33,12 @@ export async function POST(req) {
 }
 
 
+
 export async function DELETE(req) {
   const { id } = await req.json();
   // 将新用户信息保存到数据库
   try {
-    const article = await prisma.tags.delete({
+    const article = await prisma.categorys.delete({
       where: {
         id: parseInt(id),
       },

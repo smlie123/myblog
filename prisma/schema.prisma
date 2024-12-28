@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//用户模型
 model Users {
   id            Int @id @default(autoincrement())
   username      String
@@ -21,16 +22,24 @@ model Users {
   createdAt     DateTime @default(now())
 }
 
+//文章分类模型
+model Categorys {
+  id Int @id @default(autoincrement())
+  name String
+}
+
+//文章模型
 model Articles {
   id        Int     @id @default(autoincrement())
+  category  Int
+  tags      String
   title     String
-  content   String?
+  content   String
   published_at DateTime @default(now())
 }
 
+//标签
 model Tags {
   id Int @id @default(autoincrement())
   name String
-  level Int
-  desc String
 }

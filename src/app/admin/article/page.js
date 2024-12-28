@@ -56,7 +56,7 @@ export default function Home() {
           data && data.map(item => {
             return <li key={item.id}>
                 <div className={styles.btns}>
-                    <Link href={'/admin/article/edit/' + item.id}><Button size="small">编辑</Button></Link>
+                    <Link href={'/admin/article/edit?id=' + item.id}><Button size="small">编辑</Button></Link>
                     <Popconfirm
                     title="Delete the task"
                     description="Are you sure to delete this task?"
