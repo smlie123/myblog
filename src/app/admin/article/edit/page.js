@@ -228,15 +228,18 @@ export default function Home() {
         const id = searchParams.get('id')
         console.log('get id',id)
 
-        setId(id);
-        fetchPost(id)
+        if(id){
+            setId(id);
+            fetchPost(id)
+        }
+        
  
     },[])
 
 
     return (
         <div className={styles.page}>
-            <h3>{id?'编辑':'新建'}文章{id}</h3>
+            <h3>{id?'编辑':'新建'}文章</h3>
             <div>
                 <div className={styles.row}>
                     <label>标题</label>

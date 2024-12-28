@@ -19,11 +19,9 @@ export default async function Sidebar() {
         </div>
         <div className={styles.menu}>
           <Link href="/coding">编程</Link>
-          <Link href="/production">产品</Link>
           <Link href="/design">设计</Link>
           <Link href="/tools">工具</Link>
-          <Link href="/photograph">摄影</Link>
-          <Link href="/book">读书思考</Link>
+          <Link href="/thinking">thinking</Link>
           </div>
       </div>
     </div>
