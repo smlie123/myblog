@@ -13,7 +13,7 @@ export default function Home() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("/api/auth/article");
+      const response = await fetch("http://localhost:3000/api/auth/article");
       console.log(response)
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -30,7 +30,7 @@ export default function Home() {
 
   const deleteArticle = async (id)=>{
     try {
-      const response = await fetch("/api/auth/article/"+id,{
+      const response = await fetch("http://localhost:3000/api/auth/article/"+id,{
         method: "DELETE",
       });
       

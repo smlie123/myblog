@@ -9,7 +9,7 @@ export default function Home() {
 
     // 增加分类列表
     const addCategory = async function () {
-        const response = await fetch("/api/auth/category", {
+        const response = await fetch("http://localhost:3000/api/auth/category", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export default function Home() {
 
     //获取列表
     const getCategoryList = async () => {
-        const response = await fetch("/api/auth/category");
+        const response = await fetch("http://localhost:3000/api/auth/category");
         console.log(response)
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -40,7 +40,7 @@ export default function Home() {
     //删除tag
     const deleteItem = async (id)=>{
         console.log('delete id',id)
-        const response = await fetch("/api/auth/category", {
+        const response = await fetch("http://localhost:3000/api/auth/category", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

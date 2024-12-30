@@ -27,7 +27,7 @@
 }
 
 
-:global(.ql-code-block-container){
+.main :global(.ql-code-block-container){
   background: #eee;
   box-sizing: border-box;
   padding: 15px;

@@ -1,13 +1,41 @@
 'use client';
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { Input, Button, Select } from 'antd'
+import { Input, Button, Select,message, Upload } from 'antd'
+import { UploadOutlined } from '@ant-design/icons';
+
 import { useSearchParams } from "next/navigation";
 import styles from "./page.module.css";
 import dynamic from 'next/dynamic';
 import 'react-quill-new/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+const { TextArea } = Input;
+
+const categoryOptions = [
+    {
+        label:'编程',
+        value:'coding'
+    },
+    {
+        label:'设计',
+        value:'design'
+    },
+    {
+        label:'摄影',
+        value:'photograph'
+    },
+    {
+        label:'工具',
+        value:'tools'
+    },
+    {
+        label:'thinking',
+        value:'thinking'
+    },
+    
+]
+
 
 
 export default function Home() {
@@ -18,10 +46,10 @@ export default function Home() {
     const [title, setTitle] = useState("");
     const [category,setCategory] = useState("");
     const [tags,setTags] = useState([]);
+    const [summary, setSummary] = useState("");
+    const [thumbnail,setThumbnail] = useState("");
     const [content, setContent] = useState("");
     
-
-    const [categoryOptions,setCategoryOptions] = useState([]);
     const [tagOptions,setTagOptions] = useState([]);
     
 
@@ -38,6 +66,30 @@ export default function Home() {
         ['image'], // 默认的图片按钮
         ['clean'], // 清除格式按钮
     ];
+
+    const props = {
+        name: 'image',
+        action: '/api/auth/upload',
+        // headers: {
+        //   authorization: 'authorization-text',
+        // },
+        onChange(info) {
+          if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+          }
+          if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+            console.log('--------------')
+            console.log(info.file.response.path)
+            let path = info.file.response.path;
+
+           setThumbnail(path);
+
+          } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+          }
+        },
+    };
 
 
     // 自定义图片上传的处理函数
@@ -66,12 +118,8 @@ export default function Home() {
             body: formData,
         })
             .then((response) => response.json())
-            .then((data) => {
-                console.log('data', data)
-                console.log('!!!!!!!!!!!!')
-                console.log(reactQuillRef)
+            .then((data) => {                
                 const quill = reactQuillRef.current.getEditor()
-                console.log(quill)
                 const range = quill.getSelection();
                 quill.insertEmbed(range.index, 'image', data.path);
             })
@@ -83,24 +131,17 @@ export default function Home() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("/api/auth/article", {
+        const res = await fetch("http://localhost:3000/api/auth/article", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, content, tags:tags.join() ,category}),
+            body: JSON.stringify({ title, content, tags:tags.join() ,category,summary,thumbnail}),
         });
 
         const data = await res.json();
         if (res.ok) {
-            // 登录成功后，保存 JWT，并跳转到主页
-            //localStorage.setItem("token", data.token);
-
-
-
             alert('add ok')
-        } else {
-            setError(data.message || "Something went wrong");
         }
     };
 
@@ -108,25 +149,18 @@ export default function Home() {
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("/api/auth/article", {
+        const res = await fetch("http://localhost:3000/api/auth/article", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id,title, content, tags:tags.join() ,category}),
+            body: JSON.stringify({ id,title, content, tags:tags.join() ,category,summary}),
         });
 
         const data = await res.json();
         if (res.ok) {
-            // 登录成功后，保存 JWT，并跳转到主页
-            //localStorage.setItem("token", data.token);
-
-
-
             alert('update ok')
-        } else {
-            setError(data.message || "Something went wrong");
-        }
+        } 
     };
 
     //文章内容变化
@@ -135,7 +169,11 @@ export default function Home() {
     };
 
     //获取分类
-
+    const handleCategoryChange = (value)=>{
+        console.log(`selected ${value}`);
+        console.log( value)
+        setCategory(value)
+    }
 
     //标签变化
     const handleTagChange = (value)=>{
@@ -144,9 +182,6 @@ export default function Home() {
         setTags(value)
     }
 
-    const handleCategoryChange = (value)=>{
-        setCategory(value);
-    }
 
     const editorModule = useMemo(() => {
         return {
@@ -161,7 +196,7 @@ export default function Home() {
 
     //获取列表
     const getTagList = async () => {
-        const response = await fetch("/api/auth/tags");
+        const response = await fetch("http://localhost:3000/api/auth/tags");
         console.log(response)
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -179,38 +214,18 @@ export default function Home() {
         setTagOptions(options);
     }
 
-    //获取列表
-    const getCategoryList = async () => {
-        const response = await fetch("/api/auth/category");
-        console.log(response)
-        if (!response.ok) {
-            throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-        const list = result.result;
 
-        let options = [];
-        list.map(item=>{
-            options.push({
-                label:item.name,
-                value:item.id
-            })
-        })
-        setCategoryOptions(options);
-
-    }
 
     //获取单个文章
     const fetchPost = async (id) => {
-        const res = await fetch('/api/auth/article/'+id);
+        const res = await fetch('http://localhost:3000/api/auth/article/'+id);
         const result = await res.json();
-        console.log('获取文章-------------')
-        console.log(result);
-        const { title,content,category,tags } = result;
+       
+        const { title,content,category,tags,summary } = result;
 
         setTitle(title);
         setContent(content);
-        setCategory(category+'');
+        setSummary(summary);
 
         let tagsArr = tags.split(',');
         let tagIds = [];
@@ -222,9 +237,7 @@ export default function Home() {
 
     useEffect(()=>{
         getTagList();
-        getCategoryList();
-        
-        
+
         const id = searchParams.get('id')
         console.log('get id',id)
 
@@ -255,9 +268,11 @@ export default function Home() {
                     <label>栏目</label>
                     <Select
                         allowClear
-                        style={{ width:400 }}
+                        style={{
+                            width:400
+                        }}
                         placeholder="请选择栏目"
-                        value={"coding"}
+                        value={category}
                         onChange={handleCategoryChange}
                         options={categoryOptions}
                     />
@@ -276,6 +291,25 @@ export default function Home() {
                         onChange={handleTagChange}
                         options={tagOptions}
                     />
+                </div>
+                <div className={styles.row}>
+                    <label>简介</label>
+                    <TextArea 
+                        rows={4} 
+                        value={summary}
+                        onChange={(e) => setSummary(e.target.value)}
+                        placeholder="在这里输入简介" 
+                        style={{ width:400}}
+                    />
+                    
+                </div>
+
+                <div className={styles.row}>
+                    <label>缩略图</label>
+                    <img width={50} src={"http://localhost:3000/"+thumbnail}></img>
+                    <Upload {...props}>
+                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                    </Upload>
                 </div>
                 
                 <div className={styles.editor}>

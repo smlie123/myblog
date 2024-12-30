@@ -1,4 +1,3 @@
-import { Geist, Geist_Mono } from "next/font/google";
 
 
 export const metadata = {
@@ -9,7 +8,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <div>
-      {children}
-    </div>
+      {children}</div>
   );
 }

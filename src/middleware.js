@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server'
 export function middleware(request) {
   const {url,method} = request;
   const token = request.cookies.get('token');
-  console.log('这里是middleware，当前url-----------------',request.method)
+  
   // 如果是访问 admin 路由，并且没有 token，则重定向到登录页面
   if (url.includes('/admin') && !token) {
     return NextResponse.redirect(new URL('/login', url));

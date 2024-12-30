@@ -18,6 +18,7 @@ export default async function Sidebar() {
             什么嘉的个人博客
         </div>
         <div className={styles.menu}>
+          <Link href="/">首页</Link>
           <Link href="/coding">编程</Link>
           <Link href="/design">设计</Link>
           <Link href="/tools">工具</Link>

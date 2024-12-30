@@ -12,7 +12,7 @@ export default function Home() {
 
     // 增加tag列表
     const addTag = async function () {
-        const response = await fetch("/api/auth/tags", {
+        const response = await fetch("http://localhost:3000/api/auth/tags", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export default function Home() {
     //获取列表
     const getTagList = async () => {
         try {
-            const response = await fetch("/api/auth/tags");
+            const response = await fetch("http://localhost:3000/api/auth/tags");
             console.log(response)
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -51,7 +51,7 @@ export default function Home() {
     //删除tag
     const deleteTag = async (id)=>{
         console.log('delete id',id)
-        const response = await fetch("/api/auth/tags", {
+        const response = await fetch("http://localhost:3000/api/auth/tags", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

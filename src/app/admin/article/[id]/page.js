@@ -17,7 +17,7 @@ export default function Home() {
   
 
   const fetchPost = async (id) => {
-    const res = await fetch('/api/auth/article/'+id);
+    const res = await fetch('http://localhost:3000/api/auth/article/'+id);
     const posts = await res.json();
     setData(posts);
   };
@@ -31,6 +31,7 @@ export default function Home() {
       <h3>文章详情页</h3>
       <hr></hr>
       <h1>{data?.title}</h1>
+      
       <div dangerouslySetInnerHTML={{__html:data?.content}}></div>
       
         

@@ -33,8 +33,7 @@ export async function DELETE(req) {
     console.log('id',id)
   // 将新用户信息保存到数据库
   try {
-    //const [rows] = await db.execute('SELECT * FROM articles where id='+id);
-    //const result = await prisma.articles.findMany();
+    
     const article = await prisma.articles.delete({
       where: {
         id: parseInt(id),

@@ -22,19 +22,15 @@ model Users {
   createdAt     DateTime @default(now())
 }
 
-//文章分类模型
-model Categorys {
-  id Int @id @default(autoincrement())
-  name String
-}
-
 //文章模型
 model Articles {
   id        Int     @id @default(autoincrement())
-  category  Int
+  category  String
   tags      String
   title     String
-  content   String
+  thumbnail String  @default("")
+  content   String  @db.Text
+  summary   String  @default("")
   published_at DateTime @default(now())
 }
 
