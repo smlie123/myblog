@@ -44,6 +44,7 @@ export default function Home() {
     const [id, setId] = useState(null);
 
     const [title, setTitle] = useState("");
+    const [published_at, setPublished_at] = useState(null);
     const [category,setCategory] = useState("");
     const [tags,setTags] = useState([]);
     const [summary, setSummary] = useState("");
@@ -136,7 +137,7 @@ export default function Home() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, content, tags:tags.join() ,category,summary,thumbnail}),
+            body: JSON.stringify({ title, published_at, content, tags:tags.join() ,category,summary,thumbnail}),
         });
 
         const data = await res.json();
@@ -154,7 +155,7 @@ export default function Home() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id,title, content, tags:tags.join() ,category,summary}),
+            body: JSON.stringify({ id,published_at,title, content, tags:tags.join() ,category,summary}),
         });
 
         const data = await res.json();
@@ -221,11 +222,13 @@ export default function Home() {
         const res = await fetch('http://localhost:3000/api/auth/article/'+id);
         const result = await res.json();
        
-        const { title,content,category,tags,summary } = result;
+        const { title,content,category, published_at, tags,summary } = result;
 
         setTitle(title);
         setContent(content);
         setSummary(summary);
+        setCategory(category);
+        setPublished_at(published_at);
 
         let tagsArr = tags.split(',');
         let tagIds = [];
@@ -260,6 +263,16 @@ export default function Home() {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="在这里输入标题" 
+                        style={{ width:400}}
+                    />
+                </div>
+
+                <div className={styles.row}>
+                    <label>时间</label>
+                    <Input
+                        value={published_at}
+                        onChange={(e) => setPublished_at(e.target.value)}
+                        placeholder="2019-10-11" 
                         style={{ width:400}}
                     />
                 </div>
