@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 
 export default async function Home({ params }) {
-    const { category, page } = params;
+    const { category, page } = await params;
     const pageSize = 10;
     const skip = (parseInt(page) - 1) * pageSize;
 
