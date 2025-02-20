@@ -132,7 +132,7 @@ export default function Home() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("http://localhost:3000/api/auth/article", {
+        const res = await fetch(process.env.NEXT_PUBLIC_API_URL+"/api/auth/article", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -150,7 +150,7 @@ export default function Home() {
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("http://localhost:3000/api/auth/article", {
+        const res = await fetch(process.env.NEXT_PUBLIC_API_URL+"/api/auth/article", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -197,7 +197,7 @@ export default function Home() {
 
     //获取列表
     const getTagList = async () => {
-        const response = await fetch("http://localhost:3000/api/auth/tags");
+        const response = await fetch(process.env.NEXT_PUBLIC_API_URL+"/api/auth/tags");
         console.log(response)
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -219,7 +219,7 @@ export default function Home() {
 
     //获取单个文章
     const fetchPost = async (id) => {
-        const res = await fetch('http://localhost:3000/api/auth/article/'+id);
+        const res = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/auth/article/'+id);
         const result = await res.json();
        
         const { title,content,category, published_at, tags,summary } = result;
@@ -319,7 +319,7 @@ export default function Home() {
 
                 <div className={styles.row}>
                     <label>缩略图</label>
-                    <img width={50} src={"http://localhost:3000/"+thumbnail}></img>
+                    <img width={50} src={process.env.NEXT_PUBLIC_API_URL+thumbnail}></img>
                     <Upload {...props}>
                         <Button icon={<UploadOutlined />}>Click to Upload</Button>
                     </Upload>

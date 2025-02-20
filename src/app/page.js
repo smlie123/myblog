@@ -26,11 +26,12 @@ export default async function Home() {
         },
       });
 
-      console.log(result)
-
+      console.log(process.env.NEXT_PUBLIC_API_URL)
+      
     return (
 
         <div>
+            
             <div className={styles.main}>
                 {/* 文章列表 */}
                 <div className={styles.left}>

@@ -13,7 +13,7 @@ export async function GET(req) {
 
     const result = await prisma.$queryRaw`
     SELECT id, title, summary, tags, thumbnail, SUBSTRING(published_at, 1, 10) AS published_at
-    FROM articles ORDER BY RAND() LIMIT 20
+    FROM Articles ORDER BY RAND() LIMIT 20
     `;
     return new Response(JSON.stringify({ message: "查询成功", result: result }), { status: 201 });
   } catch (error) {

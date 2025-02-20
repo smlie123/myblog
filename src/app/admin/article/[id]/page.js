@@ -17,7 +17,7 @@ export default function Home() {
   
 
   const fetchPost = async (id) => {
-    const res = await fetch('http://localhost:3000/api/auth/article/'+id);
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/auth/article/'+id);
     const posts = await res.json();
     setData(posts);
   };

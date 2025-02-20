@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 
 export async function POST(req) {
-    const { title, publish_at,content, tags,category,summary,thumbnail } = await req.json();
+    const { title, published_at,content, tags,category,summary,thumbnail } = await req.json();
     console.log('发布文章', title, content, tags,category)
     if (!title || !content) {
         return new Response(JSON.stringify({ message: "All fields are required" }), { status: 400 });
@@ -14,7 +14,7 @@ export async function POST(req) {
         const article = await prisma.articles.create({
             data: {
                 title,
-                publish_at:publish_at ? new Date(publish_at):null,
+                published_at: published_at ? new Date(published_at) : null, // 修改这里：published_at -> published_at
                 category,
                 tags,
                 content,

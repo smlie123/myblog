@@ -12,7 +12,7 @@ export default function Home() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch("http://localhost:3000/api/auth/random_article");
+            const response = await fetch(process.env.NEXT_PUBLIC_API_URL+"/api/auth/random_article");
             console.log(response)
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -53,7 +53,7 @@ export default function Home() {
                                     return <li key={item.id}>
                                         <h3><Link href={'/article/' + item.id} target="_blank">{item.title}</Link></h3>
                                         {
-                                            item.summary ? <img src={'http://localhost:3000' + item.thumbnail}></img> : ''
+                                            item.summary ? <img src={process.env.NEXT_PUBLIC_API_URL + item.thumbnail}></img> : ''
                                         }
                                         <p className={styles.summary}>{item.summary}</p>
                                         <div className={styles.ptime}>

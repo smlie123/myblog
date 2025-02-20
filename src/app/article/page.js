@@ -33,7 +33,7 @@ export default async function Home() {
                             return <li key={item.id}>
                                 <h3><Link href={'/article/' + item.id} target="_blank">{item.title}</Link></h3>
                                 {
-                                    item.summary ? <img src={'http://localhost:3000' + item.thumbnail}></img> : ''
+                                    item.summary ? <img src={process.env.NEXT_PUBLIC_API_URL + item.thumbnail}></img> : ''
                                 }
                                 <p className={styles.summary}>{item.summary}</p>
                                 <div className={styles.ptime}>

@@ -6,7 +6,7 @@ export default async function Home({ params }) {
   
   const id = (await params).id;
   console.log('====params',id)
-  const res = await fetch('http://localhost:3000/api/auth/article/'+id);
+  const res = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/auth/article/'+id);
   const result = await res.json();
   
   const {title,published_at,content} = result;
