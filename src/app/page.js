@@ -2,6 +2,7 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import { PrismaClient } from '@prisma/client';
+import Header from '@/components/Header/Header'
 const prisma = new PrismaClient();
 
 
@@ -26,12 +27,10 @@ export default async function Home() {
         },
       });
 
-      console.log(process.env.NEXT_PUBLIC_API_URL)
       
     return (
 
         <div>
-            
             <div className={styles.main}>
                 {/* 文章列表 */}
                 <div className={styles.left}>

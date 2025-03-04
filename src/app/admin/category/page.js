@@ -17,7 +17,7 @@ export default function Home() {
             body: JSON.stringify({ name }),
         });
         const res = await response.json();
-        console.log('===========res',res)
+
 
         if(res.code===0){
             getCategoryList()
@@ -48,7 +48,6 @@ export default function Home() {
             body: JSON.stringify({ id }),
         });
         const res = await response.json();
-        console.log('===========res',res)
 
         if(res.code===0){
             getCategoryList()

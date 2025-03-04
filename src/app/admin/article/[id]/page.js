@@ -12,9 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  console.log('params',params)
 
-  
 
   const fetchPost = async (id) => {
     const res = await fetch(process.env.NEXT_PUBLIC_API_URL+'/api/auth/article/'+id);

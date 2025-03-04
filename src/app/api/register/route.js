@@ -10,7 +10,7 @@ export async function POST(req) {
   }
 
   // 检查用户名是否已存在
-  const [existingUser] = await db.execute("SELECT * FROM users WHERE username = ? OR email = ?", [username, email]);
+  const [existingUser] = await db.execute("SELECT * FROM Users WHERE username = ? OR email = ?", [username, email]);
   if (existingUser.length > 0) {
     return new Response(JSON.stringify({ message: "User already exists" }), { status: 400 });
   }

@@ -2,7 +2,7 @@
 const nextConfig = {
     env: {
         NEXT_PUBLIC_API_URL: process.env.NODE_ENV === 'production' 
-          ? 'https://smjia.top' 
+          ? 'http://www.smjia.top' 
           : 'http://localhost:3000'
       }
 };

@@ -1,0 +1,13 @@
+.container {
+  padding: 24px;
+  background: #fff;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.container h2 {
+  margin-bottom: 24px;
+}

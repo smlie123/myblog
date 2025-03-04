@@ -39,3 +39,14 @@ model Tags {
   id Int @id @default(autoincrement())
   name String
 }
+
+//评论
+model Comments {
+  id        Int      @id @default(autoincrement())
+  nickname  String
+  email     String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  articleId Int     
+  status    Int @default(0)  // 0: 待审核, 1: 已通过, 2: 已拒绝
+}

@@ -1,0 +1,173 @@
+.comment{
+  margin-top: 40px;
+}
+.commentSection {
+  margin-top: 40px;
+  padding: 40px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.commentTitle {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.commentList {
+  margin-bottom: 40px;
+}
+
+.commentItem {
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.commentAuthor {
+  font-weight: 500;
+  color: #333;
+}
+
+.commentDate {
+  color: #999;
+  font-size: 14px;
+}
+
+.commentContent {
+  color: #666;
+  line-height: 1.6;
+}
+
+.commentForm {
+  background: #f9f9f9;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.commentForm h4 {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.formGroup {
+  margin-bottom: 16px;
+}
+
+.formRow {
+  display: flex;
+  gap: 16px;
+}
+
+.formRow .formGroup {
+  flex: 1;
+}
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #1890ff;
+}
+
+.submitButton {
+  background: #1890ff;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.submitButton:hover {
+  background: #40a9ff;
+}
+
+@media (max-width: 768px) {
+  .page {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .sidebar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+    z-index: 100;
+  }
+
+  .article {
+    padding: 20px;
+  }
+
+  .article h1 {
+    font-size: 24px;
+  }
+
+  .commentSection {
+    padding: 20px;
+  }
+
+  .formRow {
+    flex-direction: column;
+  }
+}
+.message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 4px;
+    animation: slideIn 0.3s ease;
+    z-index: 1000;
+}
+
+.success {
+    background-color: #f6ffed;
+    border: 1px solid #b7eb8f;
+    color: #52c41a;
+}
+
+.error {
+    background-color: #fff2f0;
+    border: 1px solid #ffccc7;
+    color: #ff4d4f;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}

@@ -2,80 +2,128 @@
 
 import styles from "./page.module.css";
 import { useState, useEffect } from "react";
-import { Button,Popconfirm } from 'antd';
-import Link from 'next/link'
-
+import { Button, Popconfirm, Table, Space, message } from 'antd';
+import Link from 'next/link';
+import { EditOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons';
 
 export default function Home() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0
+  });
 
   const fetchData = async () => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+"/api/auth/article");
-      console.log(response)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/article?sort=desc`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
-      console.log('result', result)
-      setData(result.result);
+      const sortedData = result.result.sort((a, b) => 
+        new Date(b.published_at) - new Date(a.published_at)
+      );
+      setData(sortedData);
+      setPagination(prev => ({
+        ...prev,
+        total: sortedData.length
+      }));
     } catch (error) {
       setError(error.message);
+      message.error('获取文章列表失败');
     } finally {
       setLoading(false);
     }
   }
 
-  const deleteArticle = async (id)=>{
+  const deleteArticle = async (id) => {
     try {
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+"/api/auth/article/"+id,{
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/article/${id}`, {
         method: "DELETE",
       });
       
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      
+      message.success('删除成功');
+      fetchData(); // 重新加载列表
     } catch (error) {
+      message.error('删除失败');
       setError(error.message);
-    } finally {
-      setLoading(false);
     }
   }
+
+  const columns = [
+    {
+      title: '标题',
+      dataIndex: 'title',
+      key: 'title',
+      render: (text, record) => (
+        <Link href={'/article/' + record.id} target="_blank" className={styles.titleLink}>
+          {text}
+        </Link>
+      ),
+    },
+    {
+      title: '发布时间',
+      dataIndex: 'published_at',
+      key: 'published_at',
+      width: 200,
+      render: (text) => new Date(text).toLocaleString('zh-CN')
+    },
+    {
+      title: '操作',
+      key: 'action',
+      width: 200,
+      render: (_, record) => (
+        <Space>
+          <Link href={'/admin/article/edit?id=' + record.id}>
+            <Button type="link" icon={<EditOutlined />}>
+              编辑
+            </Button>
+          </Link>
+          <Popconfirm
+            title="确认删除"
+            description="确定要删除这篇文章吗？"
+            onConfirm={() => deleteArticle(record.id)}
+            okText="确定"
+            cancelText="取消"
+          >
+            <Button type="link" danger icon={<DeleteOutlined />}>
+              删除
+            </Button>
+          </Popconfirm>
+          <Link href={'/article/' + record.id} target="_blank">
+            <Button type="link" icon={<LinkOutlined />}>
+              查看
+            </Button>
+          </Link>
+        </Space>
+      ),
+    },
+  ];
+
   useEffect(() => {
     fetchData();
-  }, []); // 空依赖数组意味着该请求只会在组件挂载时发起一次
+  }, []);
+
+  const handleTableChange = (pagination) => {
+    setPagination(pagination);
+  };
 
   return (
-    <div className={styles.page}>
-      <h3>文章列表</h3>
-      <ul className={styles.list}>
-        {
-          data && data.map(item => {
-            return <li key={item.id}>
-                <div className={styles.btns}>
-                    <Link href={'/admin/article/edit?id=' + item.id}><Button size="small">编辑</Button></Link>
-                    <Popconfirm
-                    title="Delete the task"
-                    description="Are you sure to delete this task?"
-                    onConfirm={()=>deleteArticle(item.id)}
-                    // onCancel={cancel}
-                    okText="Yes"
-                    cancelText="No"
-                  >
-                    <Button size="small">删除</Button>
-                  </Popconfirm>
-                    
-                </div>
-                <Link href={'/article/' + item.id} target="_blank">{item.title} -- {item.published_at}</Link>
-                
-            </li>
-          })
-        }
-      </ul>
-
+    <div className={styles.container}>
+      <Table
+        columns={columns}
+        dataSource={data}
+        rowKey="id"
+        loading={loading}
+        pagination={pagination}
+        onChange={handleTableChange}
+      />
     </div>
   );
 }

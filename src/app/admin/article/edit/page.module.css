@@ -1,9 +1,4 @@
-.page{
-  box-sizing: border-box;
-  margin-top: 15px;
-  margin-left: 220px;
-  padding-right: 20px;
-}
+
 
 .page .row{
   width: 100%;
@@ -26,4 +21,26 @@
   float: left;
   margin-top: 10px;
   margin-bottom: 15px;
+}
+
+.editor :global(.ql-syntax) {
+    background-color: #f6f8fa;
+    border-radius: 6px;
+    padding: 16px;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 14px;
+    line-height: 1.45;
+    overflow-x: auto;
+    color: #24292e;
+}
+
+.editor :global(.ql-container) {
+    font-size: 16px;
+}
+
+.editor :global(.ql-editor pre.ql-syntax) {
+    background-color: #f6f8fa;
+    color: #24292e;
+    overflow: visible;
+    margin: 1em 0;
 }

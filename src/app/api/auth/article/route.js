@@ -14,7 +14,7 @@ export async function POST(req) {
         const article = await prisma.articles.create({
             data: {
                 title,
-                published_at: published_at ? new Date(published_at) : null, // 修改这里：published_at -> published_at
+                published_at: published_at ? new Date(published_at) : new Date(), // 修改这里：published_at -> published_at
                 category,
                 tags,
                 content,

@@ -12,7 +12,7 @@ export async function POST(req) {
   }
 
   // 查找用户
-  const [user] = await db.execute("SELECT * FROM users WHERE username = ?", [username]);
+  const [user] = await db.execute("SELECT * FROM Users WHERE username = ?", [username]);
 
   if (!user.length) {
     return new Response(JSON.stringify({ message: "Invalid credentials" }), { status: 401 });

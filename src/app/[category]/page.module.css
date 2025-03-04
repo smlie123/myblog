@@ -1,2 +1,54 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
 
+.articleList {
+    margin-bottom: 40px;
+}
+
+.articleItem {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.articleItem h2 {
+    margin-bottom: 10px;
+}
+
+.articleItem h2 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.articleItem h2 a:hover {
+    color: #1890ff;
+}
+
+.summary {
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.meta {
+    color: #999;
+    font-size: 14px;
+}
+
+.date {
+    margin-right: 15px;
+}
+
+.tags {
+    color: #1890ff;
+}
