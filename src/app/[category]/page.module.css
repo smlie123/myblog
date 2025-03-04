@@ -16,6 +16,7 @@
 }
 
 .articleItem {
+    min-height:150px;
     margin-bottom: 30px;
     padding-bottom: 20px;
     border-bottom: 1px solid #f5f5f5;
@@ -36,9 +37,17 @@
 
 .summary {
     color: #666;
+    margin-top: 10px;
     margin-bottom: 10px;
     line-height: 1.5;
 }
+
+.articleItem img{
+    float: right;
+    width: 200px;
+    height: 100px;
+    margin-left: 20px;
+  }
 
 .meta {
     color: #999;

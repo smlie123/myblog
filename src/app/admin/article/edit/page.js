@@ -149,12 +149,16 @@ export default function Home() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log('---------')
+        let reqbody = JSON.stringify({ title, published_at, content, tags: tags.join(), category, summary, thumbnail })
+        console.log(reqbody)
+
         const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/auth/article", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ title, published_at, content, tags: tags.join(), category, summary, thumbnail }),
+            body: reqbody
         });
 
         const data = await res.json();
@@ -167,12 +171,16 @@ export default function Home() {
     const handleUpdate = async (e) => {
         e.preventDefault();
 
+        console.log('---------')
+        let reqbody = JSON.stringify({ title, published_at, content, tags: tags.join(), category, summary, thumbnail })
+        console.log(reqbody)
+
         const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/api/auth/article", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ id, published_at, title, content, tags: tags.join(), category, summary }),
+            body: JSON.stringify({ id, published_at, title, content, tags: tags.join(), category, summary,thumbnail }),
         });
 
         const data = await res.json();
@@ -273,9 +281,10 @@ export default function Home() {
         const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/api/auth/article/' + id);
         const result = await res.json();
 
-        const { title, content, category, published_at, tags, summary } = result;
+        const { title, thumbnail ,content, category, published_at, tags, summary } = result;
 
         setTitle(title);
+        setThumbnail(thumbnail);
         setContent(content);
         setSummary(summary);
         setCategory(category);

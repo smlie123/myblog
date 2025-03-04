@@ -29,7 +29,7 @@ export async function POST(req) {
 }
 
 export async function PUT(req) {
-    const { id, title, published_at, content, tags,category,summary } = await req.json();
+    const { id, title, thumbnail,published_at, content, tags,category,summary } = await req.json();
     if (!title || !content) {
         return new Response(JSON.stringify({ message: "All fields are required" }), { status: 400 });
     }
@@ -43,6 +43,7 @@ export async function PUT(req) {
             data: {
                 title,
                 published_at:published_at ? new Date(published_at):null,
+                thumbnail,
                 content,
                 tags,
                 category,
@@ -59,10 +60,8 @@ export async function GET(req) {
 
     try {
         const result = await prisma.articles.findMany({
-        
-           
             orderBy: {
-              published_at: 'asc', // 或者 'desc'，根据需求排序
+              published_at: 'desc', // 或者 'desc'，根据需求排序
             },
             select: {
               id: true,

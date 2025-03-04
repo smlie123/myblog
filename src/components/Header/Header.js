@@ -10,12 +10,12 @@ export default async function Sidebar() {
         <div className={styles.logo}> 
           <Image
               src="/images/logo.jpg"
-              alt="王嘉的个人博客"
+              alt="什么嘉的博客"
               width={50}
               height={50}
               priority
             />
-            什么嘉的个人博客
+            什么嘉的博客
         </div>
         <div className={styles.menu}>
           <Link href="/">首页</Link>

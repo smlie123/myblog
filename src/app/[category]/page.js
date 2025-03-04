@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 export default async function CategoryPage({ params, searchParams }) {
     const category = params.category;
     const page = parseInt(searchParams.page) || 1;
-    const pageSize = 2;
+    const pageSize = 20;
     
     // 获取总数
     const total = await prisma.articles.count({
@@ -43,11 +43,14 @@ export default async function CategoryPage({ params, searchParams }) {
             <div className={styles.articleList}>
                 {articles.map(article => (
                     <div key={article.id} className={styles.articleItem}>
-                        <h2>
+                        <h3>
                             <Link href={`/article/${article.id}`}>
                                 {article.title}
                             </Link>
-                        </h2>
+                        </h3>
+                        {
+                                    article.thumbnail ? <img src={process.env.NEXT_PUBLIC_API_URL + article.thumbnail}></img> : ''
+                                }
                         <p className={styles.summary}>{article.summary}</p>
                         <div className={styles.meta}>
                             <span className={styles.date}>
